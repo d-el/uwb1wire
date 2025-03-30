@@ -10,6 +10,11 @@ The connection diagram:
   <img src="schematic.png" width="200" />
 </p>
 
+Test setup:
+<p float="left">
+  <img src="IMG_5930.png" width="400" />
+</p>
+
 Example of using the program:
 ```
 $ ./usb1wire /dev/ttyACM0
