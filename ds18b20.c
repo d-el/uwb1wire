@@ -1,8 +1,8 @@
 ﻿/*!****************************************************************************
  * @file		ds18b20.c
  * @author		Storozhenko Roman - D_EL
- * @version		V2.3
- * @date		30.03.2025
+ * @version		V2.4
+ * @date		31.03.2025
  * @copyright	The MIT License (MIT). Copyright (c) 2025 Storozhenko Roman
  */
 
@@ -20,6 +20,14 @@
 #define COPY_SCRATCHPAD		0x48
 #define RECALL_E2			0xB8
 #define READ_POWER_SUPPLY	0xB4
+
+#define READ_TRIM1			0x93
+#define SAVE_TRIM1			0x94
+#define WRITE_TRIM1			0x95
+
+#define READ_TRIM2			0x68
+#define SAVE_TRIM2			0x64
+#define WRITE_TRIM2			0x63
 
 /*!****************************************************************************
 * @brief	Init ds18b20
@@ -98,6 +106,76 @@ ds18b20_state_type ds18b20_readScratchpad(const uint8_t rom[8], uint8_t scratchp
 	if(crc != 0){
 		return ds18b20st_errorCrc;
 	}
+	return ds18b20st_ok;
+}
+
+/*!****************************************************************************
+* @brief	Read the trim values
+* @param	rom - slave ID or NULL for skip ROM
+* @param	trim1 - destination TRIM1, TRIM2
+*/
+ds18b20_state_type ds18b20_readTrim(const uint8_t rom[8], uint8_t trim[2]){
+	const uint8_t functionCommand[] = { READ_TRIM1, READ_TRIM2 };
+	for(uint8_t i = 0; i < 2; i++){
+		owSt_type result = ow_reset();
+		if(result != 0){
+			return (ds18b20_state_type)result;
+		}
+		result = ow_selectRom(rom);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+		result = ow_write(&functionCommand[i], 1);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+		result = ow_read(&trim[i], 1);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+	}
+	return ds18b20st_ok;
+}
+
+/*!****************************************************************************
+* @brief	Write the trim values
+* @param	rom - slave ID or NULL for skip ROM
+* @param	trim - source TRIM1, TRIM2
+*/
+ds18b20_state_type ds18b20_writeTrim(const uint8_t rom[8], const uint8_t trim[2]){
+	const uint8_t writeCommand[] = { WRITE_TRIM1, WRITE_TRIM2 };
+	for(uint8_t i = 0; i < 2; i++){
+		owSt_type result = ow_reset();
+		if(result != 0){
+			return (ds18b20_state_type)result;
+		}
+		result = ow_selectRom(rom);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+		uint8_t writedata[2] = { writeCommand[i], trim[i] };
+		result = ow_write(&writedata[0], 2);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+	}
+
+	const uint8_t saveCommand[] = { SAVE_TRIM1, SAVE_TRIM2 };
+	for(uint8_t i = 0; i < 2; i++){
+		owSt_type result = ow_reset();
+		if(result != 0){
+			return (ds18b20_state_type)result;
+		}
+		result = ow_selectRom(rom);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+		result = ow_write(&saveCommand[i], 1);
+		if(result != owOk){
+			return (ds18b20_state_type)result;
+		}
+	}
+
 	return ds18b20st_ok;
 }
 

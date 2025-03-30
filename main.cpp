@@ -139,7 +139,14 @@ int main(int argc, char** argv){
 	for(uint8_t dev = 0; dev < addrNum; dev++){
 		ds18b20_state_type dss = ds18b20_init(roms[dev].data(), bits);
 		if(dss == ds18b20st_ok){
-			printf("Init ds18b20[%u] to %uBit resolution\n", dev, bits);
+			printf("Init ds18b20[%u] to %uBit resolution, ", dev, bits);
+			uint8_t trim[2];
+			dss = ds18b20_readTrim(roms[dev].data(), trim);
+			if(dss == ds18b20st_ok){
+				printf("read TRIM1: %02X, TRIM2: %02X\n", trim[0], trim[1]);
+			}else{
+				printf("Error read TRIMs value\n");
+			}
 		}else{
 			printf("Error init ds18b20, %u\n", dss);
 		}

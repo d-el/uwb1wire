@@ -1,8 +1,8 @@
 ﻿/*!****************************************************************************
  * @file		ds18b20.h
  * @author		Storozhenko Roman - D_EL
- * @version		V2.3
- * @date		30.03.2025
+ * @version		V2.4
+ * @date		31.03.2025
  * @copyright	The MIT License (MIT). Copyright (c) 2025 Storozhenko Roman
  */
 #ifndef ds18b20_H
@@ -47,6 +47,8 @@ typedef enum{
 */
 ds18b20_state_type ds18b20_init(const uint8_t rom[8], uint8_t bits);
 ds18b20_state_type ds18b20_readScratchpad(const uint8_t rom[8], uint8_t scratchpad[9]);
+ds18b20_state_type ds18b20_readTrim(const uint8_t rom[8], uint8_t trim[2]);
+ds18b20_state_type ds18b20_writeTrim(const uint8_t rom[8], const uint8_t trim[2]);
 ds18b20_state_type ds18b20_convertTemp(const uint8_t rom[8]);
 int16_t ds18b20_reg2tmpr(const uint8_t scratchpad[2]);
 uint16_t ds18b20_getTconv(uint8_t bits);
