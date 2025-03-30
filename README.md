@@ -17,25 +17,23 @@ Test setup:
 
 Example of using the program:
 ```
-$ ./usb1wire /dev/ttyACM0
+$ ./usb1wire /dev/ttyACM0 
 Open: /dev/ttyACM0
 Found ROM[0]: 28 48 49 94 0C 00 00 84 
 Found ROM[1]: 28 FA 0B D0 02 00 00 9D 
 Found ROM[2]: 28 EE 54 10 05 00 00 A3 
 Found ROM[3]: 28 C1 5B 3B 03 00 00 6B 
-Init ds18b20[0] to 12Bit resolution
-Init ds18b20[1] to 12Bit resolution
-Init ds18b20[2] to 12Bit resolution
-Init ds18b20[3] to 12Bit resolution
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.6°C  25.9°C  25.9°C  25.6°C 
- 25.7°C  25.9°C  25.9°C  25.6°C 
+Init ds18b20[0] to 12Bit resolution, read TRIM1: 08, TRIM2: 74
+Init ds18b20[1] to 12Bit resolution, read TRIM1: 1F, TRIM2: DB
+Init ds18b20[2] to 12Bit resolution, read TRIM1: 3F, TRIM2: DB
+Init ds18b20[3] to 12Bit resolution, read TRIM1: 7F, TRIM2: DB
+ 25.4°C  25.4°C  25.6°C  25.2°C 
+ 25.4°C  25.4°C  25.6°C  25.3°C 
+ 25.4°C  25.4°C  25.6°C  25.3°C 
+ 25.4°C  25.4°C  25.6°C  25.3°C 
+ 25.4°C  25.4°C  25.6°C  25.3°C 
+ 25.4°C  25.4°C  25.6°C  25.3°C 
+ 25.4°C  25.4°C  25.6°C  25.3°C 
 ```
 
 ### Requirements
