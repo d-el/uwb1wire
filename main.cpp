@@ -79,7 +79,9 @@ int main(int argc, char** argv){
 		return write(fd, src, len) == (ssize_t)len;
 	};
 
-	auto uartReadEnable = []() -> size_t {
+	auto uartReadEnable = [](void* dst, size_t len) -> size_t {
+		(void)dst;
+		(void)len;
 		tcflush(fd, TCIOFLUSH);
 		return true;
 	};

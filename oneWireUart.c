@@ -14,10 +14,10 @@
 #include <crc.h>
 #include "oneWireUart.h"
 
-#ifndef OW_resetBaud
+#ifndef OW_RESETBAUD
 #define OW_RESETBAUD 9600
 #endif
-#ifndef OW_rwbitBaud
+#ifndef OW_RWBITBAUD
 #define OW_RWBITBAUD 115200
 #endif
 
@@ -83,7 +83,7 @@ owSt_type ow_strongPullup(bool v){
 */
 owSt_type ow_reset(void){
 	owuart_setBaud(OW_RESETBAUD);
-	owuart_readEnable();
+	owuart_readEnable(rxBff, sizeof(rxBff));
 	txBff[0] = 0xF0;
 	owuart_write(txBff, 1);
 	size_t len = owuart_read(rxBff, sizeof(rxBff));
@@ -111,7 +111,7 @@ owSt_type ow_writebit(uint8_t src){
 		*pBff = 0x00;
 	}
 	owuart_setBaud(OW_RWBITBAUD);
-	owuart_readEnable();
+	owuart_readEnable(rxBff, byteTrans);
 	owuart_write(txBff, byteTrans);
 	size_t len = owuart_read(rxBff, byteTrans);
 	if(len < 1){
@@ -144,7 +144,7 @@ owSt_type ow_write(const void *src, uint8_t len){
 	}
 
 	owuart_setBaud(OW_RWBITBAUD);
-	owuart_readEnable();
+	owuart_readEnable(rxBff, byteTrans);
 	owuart_write(txBff, byteTrans);
 	size_t rxlen = owuart_read(rxBff, byteTrans);
 	if(rxlen < 1){
@@ -162,7 +162,7 @@ owSt_type ow_readbit(uint8_t *dst){
 	uint8_t	 byteTrans = 1;
 	memset(txBff, 0xFF, byteTrans);
 	owuart_setBaud(OW_RWBITBAUD);
-	owuart_readEnable();
+	owuart_readEnable(rxBff, byteTrans);
 	owuart_write(txBff, byteTrans);
 	size_t len = owuart_read(rxBff, byteTrans);
 	if(len > 0){
@@ -194,7 +194,7 @@ owSt_type ow_read(void *dst, uint8_t len){
 	memset(txBff, 0xFF, byteTrans);
 
 	owuart_setBaud(OW_RWBITBAUD);
-	owuart_readEnable();
+	owuart_readEnable(rxBff, byteTrans);
 	owuart_write(txBff, byteTrans);
 	size_t rxlen = owuart_read(rxBff, byteTrans);
 	if(rxlen == byteTrans){

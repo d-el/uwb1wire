@@ -46,7 +46,7 @@ typedef bool (*owuart_init_t)(void);
 typedef bool (*owuart_strongPullup_t)(bool hi);
 typedef bool (*owuart_setBaud_t)(uint32_t baud);
 typedef bool (*owuart_write_t)(const void* src, size_t len);
-typedef size_t (*owuart_readEnable_t)(void);
+typedef size_t (*owuart_readEnable_t)(void* dst, size_t len);
 typedef size_t (*owuart_read_t)(void* dst, size_t len);
 
 /*!****************************************************************************
